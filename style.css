@@ -114,7 +114,7 @@ body::before {
   gap: 2px;
 }
 a.nav-logo {
-  font-family: var(--katuri);
+  font-family: var(--head);
   font-size: 34px !important; font-weight: 700; color: var(--logo) !important;
   margin-right: auto;
   padding: 8px 12px;

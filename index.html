@@ -54,7 +54,7 @@
       border-bottom:1.5px solid var(--main-light); display:flex; justify-content:center; margin:-20px -16px 22px; padding:0 12px; }
     body.dark .nav{ background:rgba(20,22,14,.88); }
     .nav-inner{ display:flex; align-items:center; max-width:var(--page-width); width:100%; }
-    .nav a.nav-logo{ font-family:var(--pen); font-size:34px; font-weight:700; color:var(--logo); padding:8px 12px;
+    .nav a.nav-logo{ font-family:var(--head); font-size:34px; font-weight:700; color:var(--logo); padding:8px 12px;
       text-decoration:none; margin-right:auto; line-height:1; white-space:nowrap; flex-shrink:0; display:inline-flex; align-items:center; gap:6px; }
     .nav a{ padding:18px 14px; font-size:15px; font-weight:500; color:var(--text-soft); text-decoration:none;
       border-bottom:2px solid transparent; transition:all .2s; white-space:nowrap; }
@@ -311,7 +311,7 @@
     <!-- 방송 컨텐츠 -->
     <div class="tile">
       <div class="t-head">🎮 방송 컨텐츠</div>
-      <div class="ct-grid">
+      <div class="ct-grid" id="ct-grid">
         <div class="ct"><div class="ic">💬</div><div class="t">소통</div><div class="s">도란도란 수다</div></div>
         <div class="ct"><div class="ic">🕹️</div><div class="t">종합게임</div><div class="s">스팀 · 배그</div></div>
         <div class="ct"><div class="ic">🎵</div><div class="t">노래</div><div class="s">가끔 불러요</div></div>
@@ -505,6 +505,17 @@
           if ([...f].length <= 2 && /[\u2190-\u21FF\u2300-\u27BF\u2B00-\u2BFF\uFE0F\u{1F000}-\u{1FAFF}]/u.test(f)) { ic = f; tx = line.slice(sp + 1); }
         }
         return `<div class="rule"><span class="rn">${ic}</span><span>${tx.replace(/</g,'&lt;')}</span></div>`;
+      }).join('');
+    }
+
+    // 방송 컨텐츠 (이모지 | 제목 | 설명) — 관리자 편집값 (없으면 기본 유지)
+    const _c = document.getElementById('ct-grid');
+    if (_c) {
+      const cards = (d.contents || '').split('\n').map(l => l.trim()).filter(Boolean);
+      if (cards.length) _c.innerHTML = cards.map(line => {
+        const p = line.split('|').map(x => x.trim());
+        const ic = p[0] || '✨', ti = (p[1] || '').replace(/</g,'&lt;'), su = (p[2] || '').replace(/</g,'&lt;');
+        return `<div class="ct"><div class="ic">${ic}</div><div class="t">${ti}</div><div class="s">${su}</div></div>`;
       }).join('');
     }
 
