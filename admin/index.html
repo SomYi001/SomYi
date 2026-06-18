@@ -83,6 +83,13 @@
       <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
     </div>
     <div class="card">
+      <div class="card-title">🧚 프로필 섹션 (처음 오셨나요 · 게임 · 약속)</div>
+      <div class="form-field"><label class="input-label">처음 오셨나요? 소개글</label><textarea class="input" id="f-welcome" rows="3"></textarea></div>
+      <div class="form-field"><label class="input-label">즐겨하는 게임 (한 줄에 하나씩, 또는 쉼표로 구분)</label><textarea class="input" id="f-games" rows="4"></textarea></div>
+      <div class="form-field"><label class="input-label">꼬물이 약속 (한 줄에 하나씩 · 줄 맨 앞에 이모지를 넣으면 그 이모지가 그대로 표시돼요)</label><textarea class="input" id="f-promises" rows="5"></textarea></div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveLocalProfile()">저장 ♥</button></div>
+    </div>
+    <div class="card">
       <div class="card-title">💗 좋아하는 것 · 싫어하는 것</div>
       <div class="form-grid">
         <div class="form-field"><label class="input-label">좋아 1</label><input class="input" id="f-like1" type="text"></div>
@@ -379,6 +386,7 @@
   const profileKeys = [
     'head-sub','quote','msg','soop-id',
     'info-name','info-catchphrase','info-tags','info-mbti','info-fandom','info-dates',
+    'welcome','games','promises',
     'like1','like2','like3','like4','dislike1','dislike2',
     'tmi-food','tmi-song','tmi-book','days',
     'link-soop','link-youtube','link-fancafe','link-fancim','link-mfancim','link-heart','link-code'
@@ -410,6 +418,13 @@
       if (rows && rows.length > 0 && rows[0].data) saved = rows[0].data;
     } catch(e) {}
     profileKeys.forEach(k => { const el = document.getElementById('f-' + k); if (el) el.value = saved[k] || ''; });
+    // 신규 섹션: 아직 저장 전이면 현재(기본) 내용을 채워서 보여줌
+    const _pd = {
+      welcome: '평일 저녁 7시 30분, 게임하고 수다 떨며 폭신하게 쉬어가는 힐링 방송이에요. 처음이면 채팅에 "첫 방문!"이라고 톡 남겨주세요 — 꼬물꼬물 반겨드릴게요 💚',
+      games: '배틀그라운드\n스팀 인디게임\n협동 · 파티게임\n시청자 추천 게임',
+      promises: '🫶 서로 존중하고 따뜻하게 대해요\n✋ 정치 · 종교 · 타 방송 비교는 잠깐 접어둬요\n🙊 스포일러는 한 번 더 생각하고!\n🫧 무엇보다, 편하게 쉬다 가요'
+    };
+    ['welcome','games','promises'].forEach(k => { const el = document.getElementById('f-' + k); if (el && !(saved[k]||'').trim()) el.value = _pd[k]; });
     // 방송 요일 체크박스
     const days = (saved.days || '').split(',').map(x=>x.trim());
     document.querySelectorAll('.day-chk').forEach(c => { c.checked = days.includes(c.value); });

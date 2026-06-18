@@ -114,13 +114,13 @@ body::before {
 }
 a.nav-logo {
   font-family: var(--katuri);
-  font-size: 30px !important; color: var(--logo) !important;
+  font-size: 34px !important; font-weight: 700; color: var(--logo) !important;
   margin-right: auto;
-  padding: 10px 12px;
+  padding: 8px 12px;
   line-height: 1;
   text-decoration: none;
   white-space: nowrap; flex-shrink: 0;
-  letter-spacing: 1px;
+  letter-spacing: 0;
 }
 .nav a {
   padding: 18px 18px;
@@ -346,7 +346,7 @@ footer {
 
 /* ── 반응형 ── */
 @media (max-width: 560px) {
-  a.nav-logo { font-size: 24px !important; padding: 10px 6px; }
+  a.nav-logo { font-size: 27px !important; padding: 8px 6px; }
 }
 @media (max-width: 500px) {
   .nav a { padding: 12px 8px; font-size: 12px; white-space: nowrap; }
@@ -354,6 +354,6 @@ footer {
   .card { padding: 18px 16px; }
 }
 @media (max-width: 400px) {
-  a.nav-logo { font-size: 21px !important; padding: 10px 4px; }
+  a.nav-logo { font-size: 23px !important; padding: 8px 4px; }
   .nav a { padding: 12px 6px; font-size: 12px; }
 }
