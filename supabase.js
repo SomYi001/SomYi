@@ -126,3 +126,29 @@ function initIframeResize() {
   send();
   new ResizeObserver(send).observe(document.body);
 }
+
+// ── iframe 높이 자동 전송 (SOOP 게시판 임베드 대응) ──
+// 이 페이지가 iframe 안에 있을 때, 실제 내용 높이를 부모 창에 계속 알려줘서
+// 게시글 쪽 스크립트가 iframe 높이를 그에 맞게 늘려줄 수 있게 한다. (없어도 무해)
+(function(){
+  function sendH(){
+    try{
+      var h = Math.max(
+        document.documentElement ? document.documentElement.scrollHeight : 0,
+        document.body ? document.body.scrollHeight : 0
+      );
+      if (h > 0) parent.postMessage({ somyiHeight: h }, '*');
+    }catch(e){}
+  }
+  function init(){
+    sendH();
+    if (window.ResizeObserver && document.body){
+      try{ new ResizeObserver(sendH).observe(document.body); }catch(e){}
+    }
+  }
+  if (document.readyState !== 'loading') init();
+  else document.addEventListener('DOMContentLoaded', init);
+  window.addEventListener('load', sendH);
+  window.addEventListener('resize', sendH);
+  [400, 1000, 2000, 3500].forEach(function(t){ setTimeout(sendH, t); });
+})();
